@@ -1,8 +1,3 @@
-/*
-NAME :UTKARSH YADAV
-ID : 2016kucp1023
-Q:IMPLEMENT THE Bounce Ball GAME 
-*/
 #include<iostream>
 #include<GL/glut.h>
 #include<bits/stdc++.h>
