@@ -1,0 +1,330 @@
+/*
+NAME :UTKARSH YADAV
+ID : 2016kucp1023
+Q:IMPLEMENT THE Bounce Ball 
+*/
+#include "algo.h"
+#define MAX 10000
+int acc=0,speed=0,pause=1,up=0,fire=0,laser=0,day=1,sit=0,enemy=0;
+int x=0;
+int bulb=0,flagr=0,scale=0,count=0,car=0,roof=0;
+float bx,by,fx=0,fy=0,rx[10]={200},ry[10],gx[10]={6000},gy[10];
+vector<float>gpx,gpy;
+
+void levels()
+{
+//red pillars
+glColor3f(1,0,0);
+int k=0;
+for(int i=0;i<MAX;i=i+1500)      //(+)ve scaling
+{
+glColor3f(0.5,0,0);
+linedraw(200-x+i,50,200-x+i,150); 
+rx[k]=200-x+i;
+ry[k]=100;
+k=k+1;
+for(int j=0;j<30;j++)
+{
+glColor3f(1,0,0);
+circle(200-x+i,160,j);	
+}
+}
+//green pillars
+glColor3f(0,1,0);
+int l=0;
+for(int i=0;i<MAX;i=i+1000)      //(+)ve scaling
+{
+linedraw(600-x+i,50,600-x+i,150); 
+gx[l]=600-x+i;
+gy[l]=100;
+l=l+1;
+for(int j=0;j<30;j++)
+{
+circle(600-x+i,160,j);	
+}
+}
+
+
+
+//check point
+
+
+glColor3f(0.2,0,0);
+linedraw(9100-x,50,9100-x,400);
+if(bulb==0)
+glColor3f(0.9,0.9,0.9);
+else
+glColor3f(1,1,0);
+
+for(int i=0;i<50;i=i+1)      //(+)ve scaling
+circle(9100-x,400,0+i);
+
+
+//palace
+for(int i=0;i<50;i=i+1)      //(+)ve scaling
+circle(9100-x,400,0+i);
+
+
+}
+
+void Background()                         //implement road
+{	
+//Brown Soil 
+glColor3f(0.3,0,0);
+for(int i=0;i<45;i++)      
+{
+	linedraw(0,0+i,9000,0+i); 
+}
+
+glColor3f(0.5,0.2,0);
+for(int i=0;i<45;i++)      
+{
+	linedraw(4000-x,500-i,6000-x,500-i); 
+	linedraw(1000-x,500-i,1500-x,500-i); 
+	linedraw(6500-x,500-i,7000-x,500-i); 
+	
+}
+
+
+
+
+
+//green grass
+
+
+glColor3f(0,1,0);
+for(int i=0;i<5;i++)      
+{
+	linedraw(0,45+i,MAX,45+i); 
+}
+//cloud1
+int l;
+for(l=0;l<=20;l++)
+{
+glColor3f(1.0,1.0,1.0);
+circle(100+x,725,l);
+}
+for(l=0;l<=35;l++)
+{
+glColor3f(1.0,1.0,1.0);
+circle(140+x,725,l);
+circle(165+x,725,l);
+}
+
+for(l=0;l<=20;l++)
+{
+glColor3f(1.0,1.0,1.0);
+circle(205+x,725,l);
+}
+
+//cloud2
+
+
+for(l=0;l<=20;l++)
+{
+glColor3f(1.0,1.0,1.0);
+circle(370+x,715,l);
+}
+for(l=0;l<=35;l++)
+{
+glColor3f(1.0,1.0,1.0);
+circle(410+x,715,l);
+circle(435+x,715,l);
+circle(470+x,715,l);
+}
+for(l=0;l<=20;l++)
+{
+glColor3f(1.0,1.0,1.0);
+circle(500+x,715,l);
+}
+
+int s=x/10;
+//SUN
+if(day==1)
+{
+glColor3f(1.0,0.8,0.0);
+for(int i=0;i<50;i++)
+circle(200+s,800,i);
+}
+
+if(day==0)
+{
+glColor3f(1,1,1);
+for(int i=0;i<50;i++)
+circle(200+s,800,i);
+glBegin(GL_POINTS);
+glVertex2i(200,800);
+glVertex2i(230,700);
+glVertex2i(300,830);
+glVertex2i(700,900);
+glEnd();
+
+}
+} 
+
+void ball()
+{
+float i;
+glPointSize(3);
+if(car==0)
+glColor3f(1,0,0);
+else
+glColor3f(0,0,1);
+for(i=0;i<35+scale;i=i+0.2)
+{
+circle(speed+fx+50,90+fy+up,i);
+}
+glPointSize(1);
+glColor3f(1,1,1);
+bx=speed+50;
+by=100+up;
+}
+
+void display()
+{
+glPointSize(3);
+Background();
+levels();
+ball();
+glFlush();
+}
+
+
+
+void timer(int)
+{
+glutPostRedisplay();
+glutTimerFunc(10/10,timer,0);
+glClear(GL_COLOR_BUFFER_BIT);
+if(day==1)
+glClearColor(0,0.7,1,1);
+if(day==0)
+glClearColor(0,0,0,1);
+//x coordinate
+if(x<1000 && pause)
+{
+x=x+10+speed;
+}
+if(x>=1000 && x<6000 && pause)
+{
+x=x+10+speed;
+}
+if(x>=1000 && x<1500 && roof)
+{
+	up=500;
+}
+roof=0;
+if(x>=6000 && x<9000 && pause)
+{
+if(x>=6500 && x<7000 && roof)
+{
+	up=500;
+}
+x=x+10+speed;
+if(x<8000)
+day=0;
+}
+if(x>=9000  && pause)
+{
+	pause=0;
+	bulb=1;
+}
+
+
+//comes down slowly
+if(up>0)
+{
+up=up-10;
+}
+//ChecKing the stoppage
+for(int i=0;i<10;i++)
+{
+if(bx==rx[i] && by<=ry[i]+bx)
+{
+	if(scale==0)
+		scale=-10;
+	if(scale==10)
+	scale=0;
+	up=100;
+}
+}
+
+for(int i=0;i<10;i++)
+{
+if(bx==gx[i] && by==gy[i])
+{
+	if(scale==0);
+	scale=10;
+	if(scale==-10)
+	scale=0;
+	up=100;
+}
+}
+}
+
+
+void keyboardFunc( unsigned char key, int x, int y )
+{
+if(key=='w' || key=='W')
+up=500;
+if(key=='d' || key=='D')
+{
+speed=speed+10;
+}
+if(key=='a' || key=='A')
+{
+	speed=speed-10;
+}
+if(key=='p' || key=='P')
+pause=(pause+1)%2;
+if(key=='p' || key=='P')
+car=(car+1)%2;
+if(key=='q' || key=='Q')
+exit(0);
+if(key=='R' || key=='r')
+roof=1;
+}
+
+void init()
+{
+  //glClearColor (0.0, 0.0, 0.0, 0.0);
+  glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB );
+  glutInitWindowPosition(0,0);
+  glutInitWindowSize(1000,700);  
+  glutCreateWindow("Bouncing Ball game");     //window Name
+  glClearColor(1,1,1,1);  
+  glClear(GL_COLOR_BUFFER_BIT);        //glClearColor ( float red, float green, float blue, float alpha ) ;
+  glColor3f(0.0f,1.0f,0.0f);   
+  glMatrixMode(GL_PROJECTION);
+  glLoadIdentity();
+  gluOrtho2D(0,1000,0,1000);
+}
+
+
+int main(int argc, char **argv)
+{
+	printf("\n\n\t\t*****************INSTRUCTION SET******************\n\n");
+	printf("Press 'p'  ---> stop/pause \n");
+	printf("Press 'd'  ---> move fast\n");
+	printf("Press 'w'  ---> jump\n");
+	cout<<"Press 'c'   ---> change color(blue,red)\n";
+	cout<<"Press 'a'   ---> move slow/reverse\n";
+	cout<<"Press 'q'   ---> move quit\n";
+	cout<<"Press 'Y' to run the Game\n";
+	int ch=getchar();
+	if(ch=='Y' || ch=='y')
+{
+	glutInit(&argc,argv);
+	init();
+	glutDisplayFunc(display);
+	glutTimerFunc(0,timer,0);
+	glutKeyboardFunc(keyboardFunc);
+	glutMainLoop();
+}
+else {
+cout<<"wrong choice";
+}
+  return 0;  
+}
+
+
