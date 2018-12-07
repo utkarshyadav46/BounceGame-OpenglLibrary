@@ -14,6 +14,18 @@ Press 'q'   ---> quit
 Press 'Y' to run the Game
 
 
-Description->Its is Just Like the Normal Game.
+Description->Its is Just Like the Interactive Bounce Ball game With some mixed feature of Mario in opengl Format.
+
+
+TO run This game 
+Install opengl in your ubuntu/window OS 
+then
+download the folder 
+open terminal
+run command:-
+g++  main.cpp -lGL -lGLU -lglut -lm
+
+
+And It run 
 
 
