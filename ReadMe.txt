@@ -1,6 +1,3 @@
-Name->Utkarsh yadav
-Id:-2016kucp1023
-Project Name:-Implement Bounce Ball Game
 		BOUNCE BALL GAME
 *****************INSTRUCTION SET******************
 Press 'p'  ---> play/pause 
